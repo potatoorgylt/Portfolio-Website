@@ -1,0 +1,6 @@
+﻿TODO:
+1. Put project to github
+2. 
+
+Known issues:
+1. (by design, woks when published)Language is prioritized by browser settings and not cookie settings

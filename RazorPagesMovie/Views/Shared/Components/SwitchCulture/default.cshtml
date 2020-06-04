@@ -1,0 +1,19 @@
+﻿@model RazorPagesMovie.Models.SwitchCultureModel
+<div>
+    <form id="switch-culture">
+        <select name="culture" id="culture-options">
+            <options></options>
+
+            @foreach (var culture in Model.SupportedCultures)
+            {
+                <option value="@culture.Name" selected="@(Model.CurrentUICulture.Name == culture.Name)">@culture.DisplayName</option>
+            }
+        </select>
+    </form>
+</div>
+
+<script>
+    document.getElementById("culture-options").addEventListener("change", () => {
+        document.getElementById("switch-culture").submit();
+    });
+</script>
