@@ -15,6 +15,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using RazorPagesMovie.Models;
 
 namespace RazorPagesMovie
 {
@@ -30,8 +32,6 @@ namespace RazorPagesMovie
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
-
             services.AddDbContext<RazorPagesMovieContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("RazorPagesMovieContext")));
 
@@ -61,6 +61,17 @@ namespace RazorPagesMovie
                 var cp = opts.RequestCultureProviders.OfType<CookieRequestCultureProvider>().First(); // Culture provider
                 cp.CookieName = "Culture";
             });
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie();
+
+            services.AddMvc()
+                .AddRazorPagesOptions(options => {
+                    options.Conventions.AuthorizeFolder("/Admin");
+                    options.Conventions.AuthorizeFolder("/Account");
+                    options.Conventions.AllowAnonymousToPage("/Account/Login");
+                });
+            services.AddScoped<IPortfolioService, PortfolioService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -82,6 +93,7 @@ namespace RazorPagesMovie
 
             app.UseRouting();
             app.UseCookiePolicy();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             var localizationOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>().Value;

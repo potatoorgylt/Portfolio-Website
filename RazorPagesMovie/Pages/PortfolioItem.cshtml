@@ -1,0 +1,28 @@
+﻿@page "{id}"
+@model RazorPagesMovie.Pages.PortfolioItemModel
+@{
+    var id = int.Parse((string)RouteData.Values["id"]);
+    var portfolioItem = await PortfolioService.FindAsync(id);
+    ViewData["Title"] = portfolioItem.Name;
+}
+
+<div class="row recipe">
+
+    <div class="col-md-8">
+
+        <div class="col-md-12">
+
+            <span class="description">
+                @portfolioItem.Description
+            </span>
+
+            <hr />
+        </div>
+
+    </div>
+
+    <div class="col-md-4 text-right">
+        <img class="img img-thumbnail" src="@portfolioItem.GetInlineImageSrc()" />
+    </div>
+
+</div>

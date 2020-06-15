@@ -1,0 +1,46 @@
+﻿@page
+@model RazorPagesMovie.Pages.Admin.AddItemModel
+@{
+    ViewData["Title"] = Model.IsNewPortfolioItem ? "Add Portfolio Item" : "Edit Portfolio Item";
+}
+@if (!ModelState.IsValid)
+{
+    <div class="col-md-offset-2 col-md-10">
+        <h3 class="text-danger">Validation Errors</h3>
+        <div asp-validation-summary="All"></div>
+        <hr />
+    </div>
+}
+
+
+<form method="post" class="form-horizontal" enctype="multipart/form-data">
+    <div class="form-group">
+        <label asp-for="Portfolio.Name" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Portfolio.Name" class="form-control" />
+            <span asp-validation-for="Portfolio.Name"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Portfolio.Description" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <textarea rows="3" asp-for="Portfolio.Description" class="form-control"></textarea>
+            <span asp-validation-for="Portfolio.Description"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Portfolio.Image" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input type="file" asp-for="UploadedImage" class="form-control"></input>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <button type="submit" class="btn btn btn-primary">Save</button>
+            @if (!Model.IsNewPortfolioItem)
+            {
+                <button type="submit" asp-page-handler="Delete" class="btn btn btn-danger">Delete</button>
+            }
+        </div>
+    </div>
+</form>

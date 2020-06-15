@@ -1,0 +1,18 @@
+﻿@page
+@model RazorPagesMovie.Pages.PortfolioModel
+@{
+    ViewData["Title"] = "Portfolio";
+    var portfolioItems = await PortfolioService.GetAllAsync();
+}
+
+    <div class="row recipes">
+        @foreach (var portfolioItem in portfolioItems)
+        {
+            <div class="recipe col-md-4">
+                <img class="img img-thumbnail" src="@portfolioItem.GetInlineImageSrc()" />
+                <!--<h3><a href="/Recipe/@portfolioItem.Id">@portfolioItem.Name</a></h3>-->
+                <h3><a asp-page="/PortfolioItem" asp-route-id="@portfolioItem.Id">@portfolioItem.Name</a></h3>
+                <p>@portfolioItem.Description</p>
+            </div>
+        }
+    </div>
